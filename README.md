@@ -1,2 +1,2 @@
-# MERN-TaskManagement
+# TaskManager
 
