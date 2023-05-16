@@ -8,6 +8,7 @@ const PORT = 3000
 
 // middlewares
 
+app.use(express.static('./public'))
 app.use(express.json())
 
 //
@@ -27,6 +28,8 @@ try{
 start()
 
 app.use('/api/tasks',tasks)
-
+app.get('/',(req,res)=>{
+    res.sendFile('./public/home.html')
+})
 
 // */
