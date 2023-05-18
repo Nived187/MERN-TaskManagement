@@ -1,0 +1,32 @@
+<html>
+    <head>
+
+        <script src = 'TaskHome.js'></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <link rel ='stylesheet' href="TaskHome.css">
+
+    </head>
+
+    <body onload="getTasks()">
+
+        <center><h1>Tasks</h1></center><br>
+
+        <div id="action-div">
+
+            <center><button onclick="createTask()">create task</button></center>
+            <center><button onclick="getTasks()">get task</button></center>
+
+        </div><br>
+
+        <div class = 'task-list-div'>
+            <ul id = 'box' type="disc">
+            
+            </ul>
+
+        </div>
+        
+
+    </body>
+
+
+</html>
