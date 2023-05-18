@@ -4,7 +4,7 @@ const dbconnect = require('./connect')
 const express = require('express')
 const tasks = require('./routes')
 const app = express()
-const PORT = 3100
+const PORT = 3000
 
 // middlewares
 
