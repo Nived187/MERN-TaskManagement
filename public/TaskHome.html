@@ -7,21 +7,24 @@
 
     </head>
 
-    <body onload="getTasks()">
+    <body onload="main()">
 
         <center><h1>Tasks</h1></center><br>
 
         <div id="action-div">
 
-            <input type="text" id="input-box" >
-            <center><button onclick="createTask()">create task</button></center>
-            <center><button onclick="getTasks()">get task</button></center>
-            
+            <center><input type="text" id="input-box" placeholder="Enter Task">
+            <button onclick="createTask()">create task</button></center>
+
+        </div><br>
+
+        <div id="dashboard">
+                <center>    <p id="message" style="color:green">ok</p>  </center>    
 
         </div><br>
 
         <div id = 'task-list-div'>
-            <ul id = 'box' type="disc">
+            <ul id = 'task-list' type="disc">
             
             </ul>
 

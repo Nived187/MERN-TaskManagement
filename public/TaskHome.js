@@ -1,27 +1,43 @@
 
-let tasks =''
-let latest_fetch =0
-let temp =  ''
 
+function main()
+{
+    tasks =''
+    temp =  ''
+    ul = document.getElementById('task-list')
+
+    //
+
+    getTasks()
+
+
+}
+
+const clrscr = ()=>{
+
+    while(ul.hasChildNodes())
+    {
+        ul.removeChild(ul.firstChild)
+    }
+
+}
 
 const getTasks = async()=>
             {
                 try{
                     const result = await axios.get('http://localhost:3000/api/tasks')
-                    //console.log(result)
                     tasks = result.data.task
-                    const ul = document.getElementById('box')
                     
-                    for(var item=latest_fetch;item<tasks.length;item++)
+                    
+                    for(var item=0;item<tasks.length;item++)
                     {
                         ul.innerHTML += "<li style='list-style:none;' }>"+
                         tasks[item].name+
-                        `<button onclick=deleteTask('${tasks[item]._id}',${item})>Delete</button>`+
+                        `&nbsp &nbsp<button onclick=editTask('${tasks[item]._id}')>Edit</button>`+
+                        `&nbsp &nbsp <button onclick=deleteTask('${tasks[item]._id}')>Delete</button>`+
                         "</li>"
-                        
 
                     }
-                    latest_fetch=tasks.length
 
                 }
                 catch(error)
@@ -31,27 +47,61 @@ const getTasks = async()=>
                             
             }
 
+const editTask = async(id)=>{
+
+    notify = document.getElementById('message')
+    const res = await axios.get('http://localhost:3000/api/tasks/'+id)
+    const task = res.data.msg
+
+    notify.innerHTML = "id :"+task._id+"<br>"+
+    `name : &nbsp <input type=text id=edit1 value=${task.name}>`+"<br>"+
+    "completed :"+`<input type='checkbox' id ='edit2' ><br><br>
+    <center><button onclick = update('${task._id}')>Update</button></center>`
+
+    const cb1 = document.getElementById('edit2')
+    if(task.completed)
+        cb1.checked=true;
+    else
+        cb1.checked=false;
+    
+
+}
+const update = async(id)=>{
+
+    const cb1 = document.getElementById('edit2').checked
+    const edit1 = document.getElementById('edit1').value
+    temp = 'http://localhost:3000/api/tasks/'+id
+    const res = await axios.patch(temp,{"name":edit1,"completed":cb1})
+    if(res.request.status==200)
+    {
+        notify = document.getElementById('message')
+        notify.innerHTML = "Updated"
+    }
+    
+    clrscr()
+    getTasks()
+
+}
+
 const createTask  = async()=>{
 
     let task = document.getElementById('input-box').value
-    console.log(task)
     const response = await axios.post('http://localhost:3000/api/tasks',{"name":`${task}`,"completed":false})
+    clrscr()
     getTasks()
-    console.log(response)
+    
 }
 
-const deleteTask  = async(id,itemno)=>{
+const deleteTask  = async(id)=>{
 
     try{
         temp ='http://localhost:3000/api/tasks/'+id
         const response = await axios.delete(temp)
-        latest_fetch--
-        itemno=itemno+1
         
         if(response.request.status==200)
         {
-            const e = document.getElementById('box')
-            e.removeChild(e.children[itemno])
+            clrscr()
+            getTasks()
         }
         else{
             console.log(response)
@@ -61,7 +111,5 @@ const deleteTask  = async(id,itemno)=>{
     {
         console.log(" deleteTask error ln:55"+error)
     }
-    
-
 
 }
